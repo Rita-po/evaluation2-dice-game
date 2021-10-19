@@ -7,6 +7,8 @@ let gamePlaying;
 
 //Button "roll"
 document.querySelector(".btn-roll").addEventListener("click", () => {
+
+
     if (gamePlaying) {
         //Random number generator
         let dice = Math.floor(Math.random() * 6) + 1;
@@ -15,6 +17,11 @@ document.querySelector(".btn-roll").addEventListener("click", () => {
         let diceDOM = document.querySelector(".dice");
         diceDOM.style.display = "block";
         diceDOM.src = "dice-" + dice + ".png";
+
+        //Dice sound 
+        let diceSound = document.createElement("audio");
+        diceSound.src = "diceSound.mp3"
+        diceSound.play()
 
 
         //Update the score of the round but only if the result is NOT 1
@@ -28,6 +35,10 @@ document.querySelector(".btn-roll").addEventListener("click", () => {
         } else {
             // Next player
             nextPlayer();
+            let nextPlayerSound = document.createElement("audio");
+            nextPlayerSound.src = "1Sound.wav"
+            nextPlayerSound.play();
+
         }
     }
 });
@@ -48,6 +59,9 @@ document.querySelector(".btn-hold").addEventListener("click", () => {
 
         //Check the global score to find the winner and display result
         if (scores[activePlayer] >= 100) {
+
+
+
             document.querySelector("#name-" + activePlayer).textContent = "Winner !";
             document.querySelector(".dice").style.dispaly = "none";
 
@@ -58,9 +72,20 @@ document.querySelector(".btn-hold").addEventListener("click", () => {
                 .querySelector(".player-" + activePlayer + "-panel")
                 .classList.remove("active");
 
+
+
+
             gamePlaying = false;
+
+            //winner sound
+            let winSound = document.createElement("audio");
+            winSound.src = "winSound.wav"
+            winSound.play();
+
+
         } else {
             nextPlayer();
+
         }
     }
 });
@@ -75,6 +100,8 @@ function nextPlayer() {
     document.querySelector(".player-1-panel").classList.toggle("active");
 
 };
+
+
 
 // button "new game"
 document.querySelector(".btn-new").addEventListener("click", init);
@@ -102,3 +129,12 @@ function init() {
     document.querySelector(".player-1-panel").classList.remove("active");
     document.querySelector(".player-0-panel").classList.add("active");
 };
+
+
+//Button rules 
+
+document.querySelector(".btn-rules").addEventListener("click", () => {
+    alert("Le jeu est prévu pour deux joueurs sur un seul écran. Le but est d'être le premier à atteindre un score global de 100. Pour ce faire, un joueur va commencer par lancer son dé. Chaque lancer incrémente son score de round. Si le dé affiche 1, le score de round est perdu et c'est au tour de l'autre joueur. Pour sauvegarder son score de round dans son score global, le joueur doit retenir son score. Ce qui aura également pour effet de passer au joueur suivant. Le score global ne peut être perdu.");
+
+
+});
